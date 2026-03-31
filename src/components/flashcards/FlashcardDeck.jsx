@@ -1,12 +1,14 @@
-import { useState, useMemo } from 'react';
-import { FLASHCARDS, CATEGORIES } from '../../data/flashcards';
+import { useState } from 'react';
+import { FLASHCARDS, CATEGORY_KEYS } from '../../data/flashcards';
+import { UI } from '../../data/strings';
 import { useFlashcards } from '../../hooks/useFlashcards';
 import FlashcardView from './FlashcardView';
 import DeckOverview from './DeckOverview';
 
-export default function FlashcardDeck() {
+export default function FlashcardDeck({ lang, t }) {
+  const s = UI[lang] ?? UI.en;
   const { progress, dueCards, review, resetProgress, stats, isDue } = useFlashcards();
-  const [session, setSession] = useState(null); // null | { queue: Card[], index: number, category?: string }
+  const [session, setSession] = useState(null);
 
   const startSession = (categoryKey = null) => {
     let queue;
@@ -14,14 +16,13 @@ export default function FlashcardDeck() {
       queue = FLASHCARDS
         .filter(c => c.cat === categoryKey)
         .sort((a, b) => {
-          // due first, then new
           const aDue = isDue(progress[a.id]);
           const bDue = isDue(progress[b.id]);
           if (aDue !== bDue) return aDue ? -1 : 1;
           return 0;
         });
     } else {
-      queue = [...dueCards].sort(() => Math.random() - 0.5); // shuffle
+      queue = [...dueCards].sort(() => Math.random() - 0.5);
     }
     if (queue.length === 0) return;
     setSession({ queue, index: 0, category: categoryKey });
@@ -29,15 +30,14 @@ export default function FlashcardDeck() {
 
   const handleRate = (cardId, quality) => {
     review(cardId, quality);
-    setSession(s => {
-      if (!s) return null;
-      const nextIndex = s.index + 1;
-      if (nextIndex >= s.queue.length) return null; // session done
-      return { ...s, index: nextIndex };
+    setSession(prev => {
+      if (!prev) return null;
+      const nextIndex = prev.index + 1;
+      if (nextIndex >= prev.queue.length) return null;
+      return { ...prev, index: nextIndex };
     });
   };
 
-  // Session done screen
   const sessionDone = session === null && dueCards.length === 0;
 
   if (session) {
@@ -50,19 +50,17 @@ export default function FlashcardDeck() {
             onClick={() => setSession(null)}
             className="text-sm text-slate-500 hover:text-slate-700 transition-colors"
           >
-            ← Back to deck
+            {s.backToDeck}
           </button>
           {session.category && (
             <span className="text-sm text-indigo-600 font-medium">
-              {CATEGORIES[session.category]}
+              {s.categoryLabels[session.category]}
             </span>
           )}
-          {/* Progress dots */}
           <span className="text-sm text-slate-400">
             {session.index + 1} / {session.queue.length}
           </span>
         </div>
-        {/* Progress bar */}
         <div className="h-1.5 bg-slate-100 rounded-full mb-6 overflow-hidden">
           <div
             className="h-full bg-indigo-500 rounded-full transition-all duration-300"
@@ -74,6 +72,9 @@ export default function FlashcardDeck() {
           cardProgress={progress[card.id]}
           onRate={handleRate}
           queueSize={remaining}
+          lang={lang}
+          t={t}
+          s={s}
         />
       </div>
     );
@@ -81,10 +82,9 @@ export default function FlashcardDeck() {
 
   return (
     <div>
-      {/* Session complete banner */}
       {sessionDone && (
         <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-4 mb-6 text-center text-emerald-700 font-medium">
-          Session complete! Great work.
+          {s.sessionComplete}
         </div>
       )}
       <DeckOverview
@@ -93,13 +93,14 @@ export default function FlashcardDeck() {
         isDue={isDue}
         onStartSession={() => startSession()}
         onStartCategory={startSession}
+        s={s}
       />
       {Object.keys(progress).length > 0 && (
         <button
           onClick={resetProgress}
           className="mt-6 text-xs text-slate-400 hover:text-red-400 underline transition-colors"
         >
-          Reset all flashcard progress
+          {s.resetFlashcards}
         </button>
       )}
     </div>
