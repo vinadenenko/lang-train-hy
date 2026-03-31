@@ -3,16 +3,18 @@ import AlphabetTrainer from './components/alphabet/AlphabetTrainer';
 import FlashcardDeck from './components/flashcards/FlashcardDeck';
 import { useSourceLanguage } from './hooks/useSourceLanguage';
 import { SOURCE_LANGUAGES } from './data/flashcards';
+import { UI } from './data/strings';
 import './index.css';
-
-const MODES = [
-  { id: 'alphabet',   label: 'ABC Alphabet', icon: 'Ա' },
-  { id: 'flashcards', label: 'Flashcards',   icon: '🃏' },
-];
 
 export default function App() {
   const [mode, setMode] = useState('alphabet');
   const { lang, setLang, t } = useSourceLanguage();
+  const s = UI[lang] ?? UI.en;
+
+  const MODES = [
+    { id: 'alphabet',   label: s.navAlphabet,   icon: 'Ա' },
+    { id: 'flashcards', label: s.navFlashcards,  icon: '🃏' },
+  ];
 
   return (
     <div className="min-h-screen bg-slate-50">
@@ -66,8 +68,8 @@ export default function App() {
         {mode === 'alphabet' && (
           <section>
             <div className="mb-6">
-              <h2 className="text-2xl font-bold text-slate-800">Armenian Alphabet</h2>
-              <p className="text-slate-500 mt-1">Eastern Armenian · 39 letters · Click a letter to learn it, then practice in Quiz mode</p>
+              <h2 className="text-2xl font-bold text-slate-800">{s.headingAlphabet}</h2>
+              <p className="text-slate-500 mt-1">{s.subtitleAlphabet}</p>
             </div>
             <AlphabetTrainer lang={lang} />
           </section>
@@ -75,8 +77,8 @@ export default function App() {
         {mode === 'flashcards' && (
           <section>
             <div className="mb-6">
-              <h2 className="text-2xl font-bold text-slate-800">Flashcards</h2>
-              <p className="text-slate-500 mt-1">110+ words · Spaced repetition (SM-2) · Progress saved automatically</p>
+              <h2 className="text-2xl font-bold text-slate-800">{s.headingFlashcards}</h2>
+              <p className="text-slate-500 mt-1">{s.subtitleFlashcards}</p>
             </div>
             <FlashcardDeck lang={lang} t={t} />
           </section>

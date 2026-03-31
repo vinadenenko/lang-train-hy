@@ -1,5 +1,12 @@
 export const UI = {
   en: {
+    // App navigation & headings
+    navAlphabet: 'ABC Alphabet',
+    navFlashcards: 'Flashcards',
+    headingAlphabet: 'Armenian Alphabet',
+    subtitleAlphabet: 'Eastern Armenian · 39 letters · Click a letter to learn it, then practice in Quiz mode',
+    headingFlashcards: 'Flashcards',
+    subtitleFlashcards: '110+ words · Spaced repetition (SM-2) · Progress saved automatically',
     // Alphabet trainer
     lettersmastered: 'Letters mastered',
     browse: 'Browse',
@@ -99,6 +106,13 @@ export const UI = {
     dueCards: 'карточек',
     dueCard: 'карточку',
     backToDeck: '← К колоде',
+    // App navigation & headings
+    navAlphabet: 'Алфавит',
+    navFlashcards: 'Карточки',
+    headingAlphabet: 'Армянский алфавит',
+    subtitleAlphabet: 'Восточноармянский · 39 букв · Нажмите на букву, затем тренируйтесь в режиме теста',
+    headingFlashcards: 'Карточки',
+    subtitleFlashcards: '110+ слов · Интервальное повторение (SM-2) · Прогресс сохраняется автоматически',
     // Category labels
     categoryLabels: {
       greetings:  'Приветствия и вежливость',
