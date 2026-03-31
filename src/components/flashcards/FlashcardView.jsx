@@ -54,8 +54,9 @@ export default function FlashcardView({ card, cardProgress, onRate, queueSize, l
             <div className="text-xs uppercase tracking-widest text-slate-400 mb-2">{langLabel}</div>
             <div className="text-2xl font-semibold text-slate-800 mb-4">{meaning}</div>
             <div className="bg-white rounded-xl p-3 text-sm text-slate-600 border border-indigo-100">
-              <div className="font-medium text-indigo-700 mb-1">{example}</div>
-              <div className="text-slate-500 italic">{exampleNative}</div>
+              <div className="font-medium text-indigo-700">{example}</div>
+              <div className="font-mono text-xs text-slate-400 mt-0.5 mb-2">{card.exampleTranslit}</div>
+              <div className="text-slate-500 italic border-t border-slate-100 pt-2">{exampleNative}</div>
             </div>
           </div>
         )}
