@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import AlphabetTrainer from './components/alphabet/AlphabetTrainer';
+import FlashcardDeck from './components/flashcards/FlashcardDeck';
 import './index.css';
 
 const MODES = [
-  { id: 'alphabet', label: 'ABC Alphabet', icon: 'Ա' },
-  { id: 'flashcards', label: 'Flashcards', icon: '🃏', disabled: true },
+  { id: 'alphabet',   label: 'ABC Alphabet', icon: 'Ա' },
+  { id: 'flashcards', label: 'Flashcards',   icon: '🃏' },
 ];
 
 export default function App() {
@@ -23,19 +24,16 @@ export default function App() {
             {MODES.map(m => (
               <button
                 key={m.id}
-                disabled={m.disabled}
-                onClick={() => !m.disabled && setMode(m.id)}
+                onClick={() => setMode(m.id)}
                 className={`
                   flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all
-                  ${m.disabled ? 'opacity-40 cursor-not-allowed text-slate-400' :
-                    mode === m.id
-                      ? 'bg-indigo-600 text-white shadow'
-                      : 'text-slate-600 hover:bg-slate-100'}
+                  ${mode === m.id
+                    ? 'bg-indigo-600 text-white shadow'
+                    : 'text-slate-600 hover:bg-slate-100'}
                 `}
               >
                 <span>{m.icon}</span>
                 <span className="hidden sm:inline">{m.label}</span>
-                {m.disabled && <span className="hidden sm:inline text-xs">(soon)</span>}
               </button>
             ))}
           </nav>
@@ -51,6 +49,15 @@ export default function App() {
               <p className="text-slate-500 mt-1">Eastern Armenian · 39 letters · Click a letter to learn it, then practice in Quiz mode</p>
             </div>
             <AlphabetTrainer />
+          </section>
+        )}
+        {mode === 'flashcards' && (
+          <section>
+            <div className="mb-6">
+              <h2 className="text-2xl font-bold text-slate-800">Flashcards</h2>
+              <p className="text-slate-500 mt-1">110+ words · Spaced repetition (SM-2) · Progress saved automatically</p>
+            </div>
+            <FlashcardDeck />
           </section>
         )}
       </main>
