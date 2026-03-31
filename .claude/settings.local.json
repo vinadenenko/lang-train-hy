@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(powershell -Command \"& ''F:\\\\dev\\\\programs\\\\njs\\\\npm.cmd'' install\")",
+      "Bash(powershell -Command \"& ''F:\\\\dev\\\\programs\\\\njs\\\\npm.cmd'' install -D tailwindcss @tailwindcss/vite\")",
+      "Bash(powershell -Command \"Get-Content 'C:/Users/user/.claude/projects/F--dev-code-js-lang-train-am/memory/MEMORY.md' -ErrorAction SilentlyContinue\" 2>&1)"
+    ]
+  }
+}
